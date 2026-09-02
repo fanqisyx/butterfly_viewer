@@ -28,7 +28,7 @@ class CommentItem(QtWidgets.QGraphicsRectItem):
         comment_text (str): Text of the comment.
         set_cursor_on_creation (bool): True to set cursor on comment text field on instantiation; False to ignore.
     """
-    def __init__(self, initial_scene_pos=None, color="white", comment_text="Text", set_cursor_on_creation=False):
+    def __init__(self, initial_scene_pos=None, color="white", comment_text="文字", set_cursor_on_creation=False):
         super().__init__()
 
         self.comment_text = comment_text

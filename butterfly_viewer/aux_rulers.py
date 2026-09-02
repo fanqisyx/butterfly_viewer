@@ -303,7 +303,7 @@ class RulerItem(QtWidgets.QGraphicsRectItem):
         self.ellipse_item1.setPen(pen)
 
 
-        text_item = QtWidgets.QGraphicsTextItem("text")
+        text_item = QtWidgets.QGraphicsTextItem("文本")
         text_item.setPos(0,0)
         font = text_item.font()
         font.setPointSize(11)
@@ -311,7 +311,7 @@ class RulerItem(QtWidgets.QGraphicsRectItem):
         text_item.setDefaultTextColor(QtCore.Qt.white)
         text_item.setFlags(QtWidgets.QGraphicsItem.ItemIgnoresTransformations) # QtWidgets.QGraphicsItem.ItemIsSelectable
 
-        text_item1 = QtWidgets.QGraphicsTextItem("text")
+        text_item1 = QtWidgets.QGraphicsTextItem("文本")
         text_item1.setPos(initial_pos_p1)
         font = text_item1.font()
         font.setPointSize(10)
@@ -319,7 +319,7 @@ class RulerItem(QtWidgets.QGraphicsRectItem):
         text_item1.setDefaultTextColor(QtCore.Qt.white)
         text_item1.setFlags(QtWidgets.QGraphicsItem.ItemIgnoresTransformations) # QtWidgets.QGraphicsItem.ItemIsSelectable
         
-        text_item2 = QtWidgets.QGraphicsTextItem("text")
+        text_item2 = QtWidgets.QGraphicsTextItem("文本")
         text_item2.setPos(initial_pos_p2)
         font = text_item2.font()
         font.setPointSize(10)

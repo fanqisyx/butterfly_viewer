@@ -41,20 +41,20 @@ class CustomQGraphicsScene(QtWidgets.QGraphicsScene):
         self.relative_origin_position = "bottomleft"
         self.single_transform_mode_smooth = False
 
-        self.background_colors = [["Dark gray (default)", 32, 32, 32],
-                                  ["White", 255, 255, 255],
-                                  ["Light gray", 223, 223, 223],
-                                  ["Black", 0, 0, 0]]
+        self.background_colors = [["深灰（默认）", 32, 32, 32],
+                                  ["白色", 255, 255, 255],
+                                  ["浅灰", 223, 223, 223],
+                                  ["黑色", 0, 0, 0]]
         self._background_color = self.background_colors[0]
 
-        self.sync_zoom_options = [["Fit in a box (default)", 
-                                    "Scale images to equally sized square boxes"],
-                                   ["Width",
-                                    "Scale images to be equally wide"],
-                                   ["Height",
-                                    "Scale images to be equally tall"],
-                                   ["Pixel (relative size)",
-                                    "Do not scale images (show with same pixel size)"]]
+        self.sync_zoom_options = [["适应方框（默认）",
+                                    "将图像缩放到大小相同的方框中"],
+                                   ["宽度",
+                                    "将图像缩放到宽度相同"],
+                                   ["高度",
+                                    "将图像缩放到高度相同"],
+                                   ["像素（相对大小）",
+                                    "不缩放图像（以相同像素大小显示）"]]
         self.sync_zoom_bys = ["box", "width", "height", "pixel"]
         self._sync_zoom_by = self.sync_zoom_bys[0]
 
@@ -83,7 +83,7 @@ class CustomQGraphicsScene(QtWidgets.QGraphicsScene):
         if self.disable_right_click:
             return
         
-        what_menu_type = "View"
+        what_menu_type = "查看"
 
         scene_pos = event.scenePos()
         item = self.itemAt(scene_pos, self.views()[0].transform())
@@ -103,45 +103,45 @@ class CustomQGraphicsScene(QtWidgets.QGraphicsScene):
                 item_parent = item_parent.parentItem()
         
         if isinstance(item_parent, CommentItem) or isinstance(item_parent, RulerItem):
-            action_delete = QtWidgets.QAction("Delete")
+            action_delete = QtWidgets.QAction("删除")
 
             if isinstance(item_parent, CommentItem):
-                menu_set_color = QtWidgets.QMenu("Set comment color...")
-                action_set_color_red = menu_set_color.addAction("Red")
+                menu_set_color = QtWidgets.QMenu("设置批注颜色……")
+                action_set_color_red = menu_set_color.addAction("红色")
                 action_set_color_red.triggered.connect(lambda: item_parent.set_color("red"))
-                action_set_color_white = menu_set_color.addAction("White")
+                action_set_color_white = menu_set_color.addAction("白色")
                 action_set_color_white.triggered.connect(lambda: item_parent.set_color("white"))
-                action_set_color_blue = menu_set_color.addAction("Blue")
+                action_set_color_blue = menu_set_color.addAction("蓝色")
                 action_set_color_blue.triggered.connect(lambda: item_parent.set_color("blue"))
-                action_set_color_green = menu_set_color.addAction("Green")
+                action_set_color_green = menu_set_color.addAction("绿色")
                 action_set_color_green.triggered.connect(lambda: item_parent.set_color("green"))
-                action_set_color_yellow = menu_set_color.addAction("Yellow")
+                action_set_color_yellow = menu_set_color.addAction("黄色")
                 action_set_color_yellow.triggered.connect(lambda: item_parent.set_color("yellow"))
-                action_set_color_black = menu_set_color.addAction("Black")
+                action_set_color_black = menu_set_color.addAction("黑色")
                 action_set_color_black.triggered.connect(lambda: item_parent.set_color("black"))
 
             action_delete.triggered.connect(lambda: self.removeItem(item_parent))
 
-            what_menu_type = "Edit item(s)"
+            what_menu_type = "编辑项目"
 
         menu = QtWidgets.QMenu()
 
-        if what_menu_type == "Edit item(s)":
+        if what_menu_type == "编辑项目":
             if menu_set_color:
                 menu.addMenu(menu_set_color)
             if action_delete:
                 menu.addAction(action_delete) # action_delete.triggered.connect(lambda: self.removeItem(item.parentItem())) # = menu.addAction("Delete", self.removeItem(item.parentItem()))
         else:
-            action_comment = menu.addAction("Comment")
-            action_comment.setToolTip("Add a draggable text comment here")
+            action_comment = menu.addAction("批注")
+            action_comment.setToolTip("在此添加可拖动的文字批注")
             action_comment.triggered.connect(lambda: self.right_click_comment.emit(scene_pos)) # action_comment.triggered.connect(lambda state, x=scene_pos: self.right_click_comment.emit(x))
 
-            menu_ruler = QtWidgets.QMenu("Measurement ruler...")
-            menu_ruler.setToolTip("Add a ruler to measure distances and angles in this image window...")
+            menu_ruler = QtWidgets.QMenu("测量标尺……")
+            menu_ruler.setToolTip("添加标尺以测量此图像窗口中的距离和角度……")
             menu_ruler.setToolTipsVisible(True)
             menu.addMenu(menu_ruler)
 
-            action_set_px_per_mm = menu_ruler.addAction("Set the ruler conversion factor for real distances (mm, cm)...")
+            action_set_px_per_mm = menu_ruler.addAction("设置实际距离的标尺换算系数（mm、cm）……")
             action_set_px_per_mm.triggered.connect(lambda: self.dialog_to_set_px_per_mm())
 
             menu_ruler.addSeparator()
@@ -149,28 +149,28 @@ class CustomQGraphicsScene(QtWidgets.QGraphicsScene):
             actions = []
 
             rulers = [
-                ["Pixel", "pixels", "px"],
-                ["Millimeter", "millimeters", "mm"],
-                ["Centimeter", "centimeters", "cm"],
-                ["Meter", "meters", "m"],
-                ["Inch", "inch", "in"],
-                ["Foot", "feet", "ft"],
-                ["Yard", "yards", "yd"],
+                ["像素", "像素", "px"],
+                ["毫米", "毫米", "mm"],
+                ["厘米", "厘米", "cm"],
+                ["米", "米", "m"],
+                ["英寸", "英寸", "in"],
+                ["英尺", "英尺", "ft"],
+                ["码", "码", "yd"],
             ]
 
             for i, ruler in enumerate(rulers):
                 name = ruler[0]
                 plural = ruler[1]
                 abbv = ruler[2]
-                actions.append(menu_ruler.addAction(f"{name} ruler"))
-                actions[i].setToolTip(f"Add a ruler to measure distances in {plural}")
+                actions.append(menu_ruler.addAction(f"{name}标尺"))
+                actions[i].setToolTip(f"添加标尺以测量{plural}中的距离")
                 actions[i].triggered.connect(lambda value,
                                              emitting=[scene_pos, self.relative_origin_position, abbv, self.px_per_unit]:
                                              self.right_click_ruler.emit(emitting[0], emitting[1], f"{emitting[2]}", emitting[3])) 
             
                 if not self.px_per_unit_conversion_set and abbv != "px":
-                    text_disclaimer = "(requires conversion to be set before using)"
-                    tooltip_disclaimer = "To use this ruler, first set the ruler conversion factor"
+                    text_disclaimer = "（使用前需设置换算系数）"
+                    tooltip_disclaimer = "使用此标尺前，请先设置标尺换算系数"
 
                     actions[i].setEnabled(False)
                     actions[i].setText(actions[i].text() + " " + text_disclaimer)
@@ -178,10 +178,10 @@ class CustomQGraphicsScene(QtWidgets.QGraphicsScene):
 
             menu_ruler.addSeparator()
 
-            action_set_relative_origin_position_topleft = menu_ruler.addAction("Relative origin at top-left")
+            action_set_relative_origin_position_topleft = menu_ruler.addAction("相对原点位于左上角")
             action_set_relative_origin_position_topleft.triggered.connect(lambda: self.right_click_relative_origin_position.emit("topleft"))
             action_set_relative_origin_position_topleft.triggered.connect(lambda: self.set_relative_origin_position("topleft"))
-            action_set_relative_origin_position_bottomleft = menu_ruler.addAction("Relative origin at bottom-left")
+            action_set_relative_origin_position_bottomleft = menu_ruler.addAction("相对原点位于左下角")
             action_set_relative_origin_position_bottomleft.triggered.connect(lambda: self.right_click_relative_origin_position.emit("bottomleft"))
             action_set_relative_origin_position_bottomleft.triggered.connect(lambda: self.set_relative_origin_position("bottomleft"))
 
@@ -194,26 +194,26 @@ class CustomQGraphicsScene(QtWidgets.QGraphicsScene):
             
             menu.addSeparator()
 
-            action_save_all_comments = menu.addAction("Save all comments of this view (.csv)...")
+            action_save_all_comments = menu.addAction("保存此视图的全部批注（.csv）……")
             action_save_all_comments.triggered.connect(lambda: self.right_click_save_all_comments.emit())
-            action_load_comments = menu.addAction("Load comments into this view (.csv)...")
+            action_load_comments = menu.addAction("将批注加载到此视图（.csv）……")
             action_load_comments.triggered.connect(lambda: self.right_click_load_comments.emit())
 
             menu.addSeparator()
 
-            menu_transform = QtWidgets.QMenu("Upsample when zoomed...")
+            menu_transform = QtWidgets.QMenu("缩放时插值……")
             menu_transform.setToolTipsVisible(True)
             menu.addMenu(menu_transform)
 
-            transform_on_tooltip_str = "Pixels are interpolated when zoomed in, rendering a smooth appearance"
-            transform_off_tooltip_str = "Pixels are unchanged when zoomed in, rendering a true-to-pixel appearance"
+            transform_on_tooltip_str = "放大时对像素进行插值，呈现平滑效果"
+            transform_off_tooltip_str = "放大时保持像素不变，呈现真实像素效果"
 
-            action_set_single_transform_mode_smooth_on = menu_transform.addAction("On")
+            action_set_single_transform_mode_smooth_on = menu_transform.addAction("开启")
             action_set_single_transform_mode_smooth_on.setToolTip(transform_on_tooltip_str)
             action_set_single_transform_mode_smooth_on.triggered.connect(lambda: self.right_click_single_transform_mode_smooth.emit(True))
             action_set_single_transform_mode_smooth_on.triggered.connect(lambda: self.set_single_transform_mode_smooth(True))
 
-            action_set_single_transform_mode_smooth_off = menu_transform.addAction("Off")
+            action_set_single_transform_mode_smooth_off = menu_transform.addAction("关闭")
             action_set_single_transform_mode_smooth_off.setToolTip(transform_off_tooltip_str)
             action_set_single_transform_mode_smooth_off.triggered.connect(lambda: self.right_click_single_transform_mode_smooth.emit(False))
             action_set_single_transform_mode_smooth_off.triggered.connect(lambda: self.set_single_transform_mode_smooth(False))
@@ -227,17 +227,17 @@ class CustomQGraphicsScene(QtWidgets.QGraphicsScene):
 
             menu_transform.addSeparator()
 
-            action_set_all_transform_mode_smooth_on = menu_transform.addAction("Switch all on")
-            action_set_all_transform_mode_smooth_on.setToolTip(transform_on_tooltip_str+" (applies to all windows)")
+            action_set_all_transform_mode_smooth_on = menu_transform.addAction("全部开启")
+            action_set_all_transform_mode_smooth_on.setToolTip(transform_on_tooltip_str+"（应用于所有窗口）")
             action_set_all_transform_mode_smooth_on.triggered.connect(lambda: self.right_click_all_transform_mode_smooth.emit(True))
     
-            action_set_all_transform_mode_smooth_off = menu_transform.addAction("Switch all off")
-            action_set_all_transform_mode_smooth_off.setToolTip(transform_off_tooltip_str+" (applies to all windows)")
+            action_set_all_transform_mode_smooth_off = menu_transform.addAction("全部关闭")
+            action_set_all_transform_mode_smooth_off.setToolTip(transform_off_tooltip_str+"（应用于所有窗口）")
             action_set_all_transform_mode_smooth_off.triggered.connect(lambda: self.right_click_all_transform_mode_smooth.emit(False))
 
             menu.addSeparator()
 
-            menu_background = QtWidgets.QMenu("Set background color...")
+            menu_background = QtWidgets.QMenu("设置背景颜色……")
             menu_background.setToolTipsVisible(True)
             menu.addMenu(menu_background)
 
@@ -245,7 +245,7 @@ class CustomQGraphicsScene(QtWidgets.QGraphicsScene):
                 descriptor = color[0]
                 rgb = color[1:4]
                 action_set_background = menu_background.addAction(descriptor)
-                action_set_background.setToolTip("RGB " + ", ".join([str(channel) for channel in rgb]))
+                action_set_background.setToolTip("RGB " + "、".join([str(channel) for channel in rgb]))
                 action_set_background.triggered.connect(lambda value, color=color: self.right_click_background_color.emit(color))
                 action_set_background.triggered.connect(lambda value, color=color: self.background_color_lambda(color))
                 if color == self.background_color:
@@ -254,7 +254,7 @@ class CustomQGraphicsScene(QtWidgets.QGraphicsScene):
 
             menu.addSeparator()
 
-            menu_sync_zoom_by = QtWidgets.QMenu("Sync zoom by...")
+            menu_sync_zoom_by = QtWidgets.QMenu("同步缩放方式……")
             menu_sync_zoom_by.setToolTipsVisible(True)
             menu.addMenu(menu_sync_zoom_by)
 

@@ -185,7 +185,7 @@ class DragDropImageLabel(QtWidgets.QWidget):
 
     became_occupied = QtCore.pyqtSignal(bool)
 
-    def __init__(self, show_filename=False, show_pushbuttons=True, is_main=False, text_default="Drag image"):
+    def __init__(self, show_filename=False, show_pushbuttons=True, is_main=False, text_default="拖入图像"):
         super().__init__()
         
         self.file_path = None
@@ -223,7 +223,7 @@ class DragDropImageLabel(QtWidgets.QWidget):
 
         main_layout.addWidget(self.image_label_child, 0, 0)
 
-        self.filename_label = FilenameLabel("No filename available", remove_path=True)
+        self.filename_label = FilenameLabel("没有可用的文件名", remove_path=True)
         main_layout.addWidget(self.filename_label, 0, 0, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
         self.filename_label.setVisible(False)
         
@@ -232,8 +232,8 @@ class DragDropImageLabel(QtWidgets.QWidget):
             self.clear_layout = QtWidgets.QGridLayout()
             
             self.open_pushbutton = QtWidgets.QToolButton()
-            self.open_pushbutton.setText("Select image...")
-            self.open_pushbutton.setToolTip("Select image from file and add here in sliding overlay creator...")
+            self.open_pushbutton.setText("选择图像……")
+            self.open_pushbutton.setToolTip("从文件中选择图像并添加到滑动叠加创建器……")
             self.open_pushbutton.setStyleSheet("""
                 QToolButton { 
                     font-size: 9pt;
@@ -242,7 +242,7 @@ class DragDropImageLabel(QtWidgets.QWidget):
 
             self.clear_pushbutton = QtWidgets.QToolButton()
             self.clear_pushbutton.setText("×")
-            self.clear_pushbutton.setToolTip("Clear image")
+            self.clear_pushbutton.setToolTip("清除图像")
             self.clear_pushbutton.setStyleSheet("""
                 QToolButton { 
                     font-size: 9pt;
@@ -269,7 +269,7 @@ class DragDropImageLabel(QtWidgets.QWidget):
             self.clear_pushbutton.setVisible(False)
 
 
-        self.loading_grayout_label = QtWidgets.QLabel("Loading...")
+        self.loading_grayout_label = QtWidgets.QLabel("加载中……")
         self.loading_grayout_label.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
         self.loading_grayout_label.setVisible(False)
         self.loading_grayout_label.setStyleSheet("""
@@ -299,7 +299,7 @@ class DragDropImageLabel(QtWidgets.QWidget):
     
     def dragEnterEvent(self, event):
         """event: Override dragEnterEvent() to set stylesheet as hovered and read filepath from a dragged image, but reject multiple files."""
-        if len(event.mimeData().urls()) is 1 and self.grab_image_urls_from_mimedata(event.mimeData()):
+        if len(event.mimeData().urls()) == 1 and self.grab_image_urls_from_mimedata(event.mimeData()):
             self.image_label_child.set_stylesheet_hovered(True)
             event.accept()
         else:
@@ -307,7 +307,7 @@ class DragDropImageLabel(QtWidgets.QWidget):
 
     def dragMoveEvent(self, event):
         """event: Override dragMoveEvent() to reject multiple files."""
-        if len(event.mimeData().urls()) is 1 and self.grab_image_urls_from_mimedata(event.mimeData()):
+        if len(event.mimeData().urls()) == 1 and self.grab_image_urls_from_mimedata(event.mimeData()):
             event.accept()
         else:
             event.ignore()
@@ -319,7 +319,7 @@ class DragDropImageLabel(QtWidgets.QWidget):
     def dropEvent(self, event):
         """event: Override dropEvent() to read filepath from a dragged image and load image preview."""
         urls = self.grab_image_urls_from_mimedata(event.mimeData())
-        if len(urls) is 1 and urls:
+        if len(urls) == 1 and urls:
             event.setDropAction(QtCore.Qt.CopyAction)
             file_path = urls[0].toLocalFile()
             loaded = self.load_image(file_path)
@@ -362,12 +362,12 @@ class DragDropImageLabel(QtWidgets.QWidget):
         
         Returns:
             loaded (bool): True if image successfully loaded; False if not."""
-        loading_text = "Loading..."
+        loading_text = "加载中……"
         if self.show_filepath_while_loading:
-            loading_text = loading_text.replace("...",  " '" + file_path.split("/")[-1] + "'...")
+            loading_text = "正在加载“" + file_path.split("/")[-1] + "”……"
         self.display_loading_grayout(True, loading_text)
         pixmap = QtGui.QPixmap(file_path)
-        if pixmap.depth() is 0:
+        if pixmap.depth() == 0:
             self.display_loading_grayout(False)
             return False
         
@@ -384,14 +384,15 @@ class DragDropImageLabel(QtWidgets.QWidget):
     def open_image_via_dialog(self):
         """Open dialog window to select and load image from file."""
         file_dialog = QtWidgets.QFileDialog(self)
+        file_dialog.setWindowTitle("选择图像")
         
         file_dialog.setNameFilters([
-            "Common image files (*.jpeg *.jpg  *.png *.tiff *.tif *.bmp *.gif *.webp *.svg)",
-            "All files (*)",
-            "JPEG image files (*.jpeg *.jpg)", 
-            "PNG image files (*.png)", 
-            "TIFF image files (*.tiff *.tif)", 
-            "BMP (*.bmp)"])
+            "常用图像文件 (*.jpeg *.jpg  *.png *.tiff *.tif *.bmp *.gif *.webp *.svg)",
+            "所有文件 (*)",
+            "JPEG 图像文件 (*.jpeg *.jpg)",
+            "PNG 图像文件 (*.png)",
+            "TIFF 图像文件 (*.tiff *.tif)",
+            "BMP 图像 (*.bmp)"])
         file_dialog.setFileMode(QtWidgets.QFileDialog.ExistingFile)
         
         if not file_dialog.exec_():
@@ -410,7 +411,7 @@ class DragDropImageLabel(QtWidgets.QWidget):
         self.file_path = None
         self.clear_pushbutton.setEnabled(False)
         self.clear_pushbutton.setVisible(False)
-        self.filename_label.setText("No filename available")
+        self.filename_label.setText("没有可用的文件名")
         self.filename_label.setVisible(False)
         
     def set_text(self, text):
@@ -423,7 +424,7 @@ class DragDropImageLabel(QtWidgets.QWidget):
         self.filename_label.setText(text)
         self.filename_label.setVisible(self.show_filename)
 
-    def display_loading_grayout(self, boolean, text="Loading...", pseudo_load_time=0.2):
+    def display_loading_grayout(self, boolean, text="加载中……", pseudo_load_time=0.2):
         """Show/hide grayout overlay on label for loading sequences.
 
         Args:
@@ -432,7 +433,7 @@ class DragDropImageLabel(QtWidgets.QWidget):
             pseudo_load_time (float): The delay (in seconds) to hide the grayout to give users a feeling of action.
         """ 
         if not boolean:
-            text = "Loading..."
+            text = "加载中……"
         self.loading_grayout_label.setText(text)
         self.loading_grayout_label.setVisible(boolean)
         if boolean:
@@ -470,7 +471,7 @@ class FourDragDropImageLabel(QtWidgets.QFrame):
 
         main_layout = QtWidgets.QGridLayout()
         
-        self.app_main_topleft   = DragDropImageLabel(show_filename=True, show_pushbuttons=True, is_main=True, text_default="Drag image(s)")
+        self.app_main_topleft   = DragDropImageLabel(show_filename=True, show_pushbuttons=True, is_main=True, text_default="拖入图像")
         self.app_topright       = DragDropImageLabel(show_filename=True, show_pushbuttons=True)
         self.app_bottomleft     = DragDropImageLabel(show_filename=True, show_pushbuttons=True)
         self.app_bottomright    = DragDropImageLabel(show_filename=True, show_pushbuttons=True)
@@ -536,7 +537,7 @@ class FourDragDropImageLabel(QtWidgets.QFrame):
             i = 0
             file_path = urls[i].toLocalFile()
 
-            self.will_start_loading.emit(True, "Loading to creator " + str(i+1) + "/" + n_str + "...")
+            self.will_start_loading.emit(True, "正在加载到创建器：" + str(i+1) + "/" + n_str + "……")
 
             loaded = self.app_main_topleft.load_image(file_path)
             if not loaded:
@@ -545,7 +546,7 @@ class FourDragDropImageLabel(QtWidgets.QFrame):
             if n >= 2:
                 i += 1
                 file_path = urls[i].toLocalFile()
-                self.will_start_loading.emit(True, "Loading to creator " + str(i+1) + "/" + n_str + "...")
+                self.will_start_loading.emit(True, "正在加载到创建器：" + str(i+1) + "/" + n_str + "……")
                 loaded = self.app_topright.load_image(file_path)
                 if not loaded:
                     self.app_topright.image_label_child.set_stylesheet_hovered(False)
@@ -553,7 +554,7 @@ class FourDragDropImageLabel(QtWidgets.QFrame):
                 if n >= 3:
                     i += 1
                     file_path = urls[i].toLocalFile()
-                    self.will_start_loading.emit(True, "Loading to creator " + str(i+1) + "/" + n_str + "...")
+                    self.will_start_loading.emit(True, "正在加载到创建器：" + str(i+1) + "/" + n_str + "……")
                     loaded = self.app_bottomright.load_image(file_path)
                     if not loaded:
                         self.app_bottomright.image_label_child.set_stylesheet_hovered(False)
@@ -561,7 +562,7 @@ class FourDragDropImageLabel(QtWidgets.QFrame):
                     if n >= 4:
                         i += 1
                         file_path = urls[i].toLocalFile()
-                        self.will_start_loading.emit(True, "Loading to creator " + str(i+1) + "/" + n_str + "...")
+                        self.will_start_loading.emit(True, "正在加载到创建器：" + str(i+1) + "/" + n_str + "……")
                         loaded = self.app_bottomleft.load_image(file_path)
                         if not loaded:
                             self.app_bottomleft.image_label_child.set_stylesheet_hovered(False)

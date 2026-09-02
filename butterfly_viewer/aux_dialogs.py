@@ -31,7 +31,7 @@ class PixelUnitConversionInputDialog(QtWidgets.QDialog):
 
     def __init__(self, parent=None, unit="mm", px_conversion=1.0, unit_conversion=1.0, px_per_unit=None):
         super().__init__(parent)
-        self.setWindowTitle("Set conversion factor for pixel-per-" + unit + " conversion for this image window")
+        self.setWindowTitle("设置当前图像窗口的像素/" + unit + "换算系数")
         self.setWindowFlags(QtCore.Qt.WindowTitleHint | QtCore.Qt.WindowCloseButtonHint)
 
         frame_rect = self.frameGeometry()
@@ -41,8 +41,8 @@ class PixelUnitConversionInputDialog(QtWidgets.QDialog):
 
         self.unit = unit
         if unit == "mm":
-            self.unit_longform = "millimeter"
-            self.unit_longform_cap = "Millimeter"
+            self.unit_longform = "毫米"
+            self.unit_longform_cap = "毫米"
         else:
             self.unit_longform = unit
             self.unit_longform_cap = self.unit_longform
@@ -57,13 +57,13 @@ class PixelUnitConversionInputDialog(QtWidgets.QDialog):
         buttonbox.accepted.connect(self.accept) 
         buttonbox.rejected.connect(self.reject)
 
-        dialog_string = "Enter the pixel and " + self.unit_longform + " length for a known distance in the base image of the active window."
-        dialog_string = dialog_string + "\n\n" + "Tip: First use a pixel ruler to measure a known distance in the image (such as the width of a painting canvas or the length of a calibration ruler) and then enter the distance in pixels and " + self.unit_longform + "s here.\n"
+        dialog_string = "请输入当前窗口底图中已知距离对应的像素长度和" + self.unit_longform + "长度。"
+        dialog_string = dialog_string + "\n\n" + "提示：请先使用像素标尺测量图像中的已知距离（例如画布宽度或校准尺长度），然后在此输入像素数和" + self.unit_longform + "数。\n"
         dialog_label = QtWidgets.QLabel(dialog_string)
         dialog_label.setWordWrap(True)
 
         values_layout = QtWidgets.QGridLayout()
-        px_label = QtWidgets.QLabel("Pixels in a known distance: ")
+        px_label = QtWidgets.QLabel("已知距离中的像素数：")
         px_label.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         px_string = "{:.2f}".format(self.px_conversion)
         self.px_textedit = QtWidgets.QLineEdit(px_string)
@@ -71,7 +71,7 @@ class PixelUnitConversionInputDialog(QtWidgets.QDialog):
         self.px_textedit.textEdited.connect(self.on_px_textedit_edited)
         self.px_textedit.editingFinished.connect(lambda: self.px_textedit.setText("{:.2f}".format(self.px_conversion)))
 
-        unit_label = QtWidgets.QLabel(self.unit_longform_cap + "s" + " in a known distance: ")
+        unit_label = QtWidgets.QLabel("已知距离中的" + self.unit_longform_cap + "数：")
         unit_label.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         unit_string = "{:.2f}".format(self.unit_conversion) # + " " + "px"
         self.unit_textedit = QtWidgets.QLineEdit(unit_string)
@@ -79,7 +79,7 @@ class PixelUnitConversionInputDialog(QtWidgets.QDialog):
         self.unit_textedit.textEdited.connect(self.on_unit_textedit_edited)
         self.unit_textedit.editingFinished.connect(lambda: self.unit_textedit.setText("{:.2f}".format(self.unit_conversion)))
 
-        px_per_unit_label = QtWidgets.QLabel("Calculated pixels per " + self.unit_longform + " for the known distance: ")
+        px_per_unit_label = QtWidgets.QLabel("已知距离的每" + self.unit_longform + "像素数：")
         px_per_unit_label.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         px_per_unit_string = "{:.2f}".format(self.px_per_unit)
         self.px_per_unit_textedit = QtWidgets.QLineEdit(px_per_unit_string)
@@ -132,7 +132,7 @@ class PixelUnitConversionInputDialog(QtWidgets.QDialog):
         if text is None:
             return
         text = text.replace(" ", "")
-        if text is "":
+        if text == "":
             return
         text = text.replace(",", ".")
         text_filter = text
@@ -179,7 +179,7 @@ class PixelUnitConversionInputDialog(QtWidgets.QDialog):
         if text is None:
             return
         text = text.replace(" ", "")
-        if text is "":
+        if text == "":
             return
         text = text.replace(",", ".")
         text_filter = text

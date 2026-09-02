@@ -11,7 +11,10 @@ Credits:
 
 
 
-import sip
+try:
+    import sip
+except ImportError:  # PyQt5 >= 5.15 bundles sip as a submodule.
+    from PyQt5 import sip
 import gc
 import os
 import math
@@ -30,13 +33,14 @@ from aux_rulers import RulerItem
 
 
 
-sip.setapi('QDate', 2)
-sip.setapi('QTime', 2)
-sip.setapi('QDateTime', 2)
-sip.setapi('QUrl', 2)
-sip.setapi('QTextStream', 2)
-sip.setapi('QVariant', 2)
-sip.setapi('QString', 2)
+if hasattr(sip, "setapi"):
+    sip.setapi('QDate', 2)
+    sip.setapi('QTime', 2)
+    sip.setapi('QDateTime', 2)
+    sip.setapi('QUrl', 2)
+    sip.setapi('QTextStream', 2)
+    sip.setapi('QVariant', 2)
+    sip.setapi('QString', 2)
 
     
 
@@ -208,7 +212,7 @@ class SplitView(QtWidgets.QFrame):
 
         # Pushbutton to close the image window
         self.close_pushbutton = QtWidgets.QPushButton("×")
-        self.close_pushbutton.setToolTip("Close image window")
+        self.close_pushbutton.setToolTip("关闭图像窗口")
         self.close_pushbutton.clicked.connect(self.was_clicked_close_pushbutton)
         self.close_pushbutton_always_visible = True
 
@@ -702,7 +706,7 @@ class SplitView(QtWidgets.QFrame):
         
         Triggered from right-click menu on view.
         """
-        self.display_loading_grayout(True, "Selecting folder and name for saving all comments in current view...", pseudo_load_time=0)
+        self.display_loading_grayout(True, "选择文件夹和文件名以保存当前视图的全部批注……", pseudo_load_time=0)
 
         style = []
         x = []
@@ -746,13 +750,13 @@ class SplitView(QtWidgets.QFrame):
                   ["Style", "Image x", "Image y", "Appearance", "String"]]
 
         date_and_time = datetime.now().strftime('%Y-%m-%d %H%M%S') # Sets the default filename with date and time 
-        filename = "Untitled comments" + " - " + os.path.basename(filepath_mainview).split('.')[0] + " - " + date_and_time + ".csv"
-        name_filters = "CSV (*.csv)" # Allows users to select filetype of screenshot
+        filename = "未命名批注" + " - " + os.path.basename(filepath_mainview).split('.')[0] + " - " + date_and_time + ".csv"
+        name_filters = "CSV 批注文件 (*.csv)"
         
-        filepath, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Save all comments of current view to .csv", folderpath+filename, name_filters)
+        filepath, _ = QtWidgets.QFileDialog.getSaveFileName(self, "将当前视图的全部批注保存为 .csv", folderpath+filename, name_filters)
 
         if filepath:
-            self.display_loading_grayout(True, "Saving all comments of current view to .csv...")
+            self.display_loading_grayout(True, "正在将当前视图的全部批注保存为 .csv……")
 
             with open(filepath, "w", newline='') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter="|")
@@ -769,7 +773,7 @@ class SplitView(QtWidgets.QFrame):
         
         Triggered from right-click menu on view.
         """
-        self.display_loading_grayout(True, "Selecting comment file (.csv) to load into current view...", pseudo_load_time=0)
+        self.display_loading_grayout(True, "选择要加载到当前视图的批注文件（.csv）……", pseudo_load_time=0)
 
         folderpath = None
         filepath_mainview = self.currentFile
@@ -782,10 +786,10 @@ class SplitView(QtWidgets.QFrame):
             self.display_loading_grayout(False, pseudo_load_time=0)
             return
 
-        filename, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Select comment file (.csv) to load into current view", folderpath, "Comma-Separated Value File (*.csv)")
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(self, "选择要加载到当前视图的批注文件（.csv）", folderpath, "逗号分隔值文件 (*.csv)")
 
         if filename:
-            self.display_loading_grayout(True, "Loading comments from selected .csv into current view...")
+            self.display_loading_grayout(True, "正在从选定的 .csv 文件加载批注到当前视图……")
 
             with open(filename, "r", newline='') as csv_file:
                 csv_reader = csv.reader(csv_file, delimiter="|")
@@ -797,8 +801,8 @@ class SplitView(QtWidgets.QFrame):
                     i = csv_list.index(["Style", "Image x", "Image y", "Appearance", "String"])
                 except ValueError:
                     box_type = QtWidgets.QMessageBox.Warning
-                    title = "Invalid .csv comment file"
-                    text = "The selected .csv comment file does not have a format accepted by this app."
+                    title = "无效的 .csv 批注文件"
+                    text = "选定的 .csv 批注文件格式不受本应用支持。"
                     box_buttons = QtWidgets.QMessageBox.Close
                     box = QtWidgets.QMessageBox(box_type, title, text, box_buttons)
                     box.exec_()
@@ -816,8 +820,8 @@ class SplitView(QtWidgets.QFrame):
                             self._scene_main_topleft.addItem(CommentItem(initial_scene_pos=comment_pos, color=comment_color, comment_text=comment_string, set_cursor_on_creation=False))
                     if no_comments:
                         box_type = QtWidgets.QMessageBox.Warning
-                        title = "No comments in .csv"
-                        text = "No comments found in the selected .csv comment file."
+                        title = ".csv 文件中没有批注"
+                        text = "在选定的 .csv 批注文件中没有找到批注。"
                         box_buttons = QtWidgets.QMessageBox.Close
                         box = QtWidgets.QMessageBox(box_type, title, text, box_buttons)
                         box.exec_()
@@ -838,7 +842,7 @@ class SplitView(QtWidgets.QFrame):
             if isinstance(item, RulerItem):
                 item.set_and_refresh_relative_origin_position(string)
 
-    def display_loading_grayout(self, boolean, text="Loading...", pseudo_load_time=0.2):
+    def display_loading_grayout(self, boolean, text="加载中……", pseudo_load_time=0.2):
         """Emit signal for showing/hiding a grayout screen to indicate loading sequences.
 
         Args:

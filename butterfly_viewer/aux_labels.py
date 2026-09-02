@@ -58,7 +58,7 @@ class FilenameLabel(QtWidgets.QLabel):
         Only call with no arguments (for example, make_visible_based_on_text()).
         """
         text = self.text()
-        if text is "":
+        if text == "":
             text = None
         if self.visibility_based_on_text:
             if text is not None:
@@ -69,7 +69,7 @@ class FilenameLabel(QtWidgets.QLabel):
     def set_visible_based_on_text(self, value):
         """bool: Set visibilty of label but take into account the setting for visibilty based on text."""
         text = self.text()
-        if text is "":
+        if text == "":
             text = None
         if self.visibility_based_on_text:
             if text is None:

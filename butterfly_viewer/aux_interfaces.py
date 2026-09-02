@@ -85,8 +85,8 @@ class SplitViewCreator(QtWidgets.QFrame):
         self.drag_drop_area.has_stopped_loading.connect(self.display_loading_grayout)
         
         self.buttons_layout = QtWidgets.QBoxLayout(QtWidgets.QBoxLayout.LeftToRight)
-        self.create_splitview_pushbutton = QtWidgets.QPushButton("Create")
-        self.create_splitview_pushbutton.setToolTip("Create a sliding overlay window with these images")
+        self.create_splitview_pushbutton = QtWidgets.QPushButton("创建")
+        self.create_splitview_pushbutton.setToolTip("使用这些图像创建滑动叠加窗口")
         self.create_splitview_pushbutton.setStyleSheet("QPushButton { font-size: 10pt; }")
         self.create_splitview_pushbutton.clicked.connect(self.clicked_create_splitview_pushbutton)
 
@@ -95,7 +95,7 @@ class SplitViewCreator(QtWidgets.QFrame):
         
         self.buttons_layout.addWidget(self.create_splitview_pushbutton)
 
-        self.loading_grayout_label = QtWidgets.QLabel("Loading...")
+        self.loading_grayout_label = QtWidgets.QLabel("加载中……")
         self.loading_grayout_label.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
         self.loading_grayout_label.setVisible(False)
         self.loading_grayout_label.setStyleSheet("""
@@ -106,7 +106,7 @@ class SplitViewCreator(QtWidgets.QFrame):
                 } 
             """)
 
-        self.title_label = QtWidgets.QLabel("Sliding overlay creator")
+        self.title_label = QtWidgets.QLabel("滑动叠加创建器")
         self.title_label.setAlignment(QtCore.Qt.AlignLeft)
         self.title_label.setStyleSheet("""
             QLabel { 
@@ -141,7 +141,7 @@ class SplitViewCreator(QtWidgets.QFrame):
         QtWidgets.QWidget.setMouseTracking(self, flag)
         recursive_set(self)
 
-    def display_loading_grayout(self, boolean, text="Loading...", pseudo_load_time=0.2): 
+    def display_loading_grayout(self, boolean, text="加载中……", pseudo_load_time=0.2):
         """Show/hide grayout screen for loading sequences.
 
         Args:
@@ -151,7 +151,7 @@ class SplitViewCreator(QtWidgets.QFrame):
         """ 
         # Needed to give feedback to user that images are loading
         if not boolean:
-            text = "Loading..."
+            text = "加载中……"
         self.loading_grayout_label.setText(text)
         self.loading_grayout_label.setVisible(boolean)
         if boolean:
@@ -173,7 +173,7 @@ class SliderDeluxe(QtWidgets.QWidget):
 
     was_changed_slider_value = QtCore.pyqtSignal(int)
 
-    def __init__(self, parent=None, name="Text", pixmap_preview_position="Full"):
+    def __init__(self, parent=None, name="文字", pixmap_preview_position="Full"):
         super().__init__()
 
         self.show_pixmap_preview = True
@@ -358,13 +358,13 @@ class SlidersOpacitySplitViews(QtWidgets.QFrame):
         super().__init__()
 
         self.slider_base = SliderDeluxe(name=None, pixmap_preview_position="Base")
-        self.slider_base.setToolTip("Adjust transparency of base image (0% = transparent; 100% = opaque)")
+        self.slider_base.setToolTip("调整底图透明度（0% = 完全透明；100% = 完全不透明）")
         self.slider_topright = SliderDeluxe(name=None, pixmap_preview_position="Top right")
-        self.slider_topright.setToolTip("Adjust transparency of top right of sliding overlay (0% = transparent; 100% = opaque)")
+        self.slider_topright.setToolTip("调整滑动叠加层右上区域的透明度（0% = 完全透明；100% = 完全不透明）")
         self.slider_bottomright = SliderDeluxe(name=None, pixmap_preview_position="Bottom right")
-        self.slider_bottomright.setToolTip("Adjust transparency of bottom right of sliding overlay (0% = transparent; 100% = opaque)")
+        self.slider_bottomright.setToolTip("调整滑动叠加层右下区域的透明度（0% = 完全透明；100% = 完全不透明）")
         self.slider_bottomleft = SliderDeluxe(name=None, pixmap_preview_position="Bottom left")
-        self.slider_bottomleft.setToolTip("Adjust transparency of bottom left of sliding overlay (0% = transparent; 100% = opaque)")
+        self.slider_bottomleft.setToolTip("调整滑动叠加层左下区域的透明度（0% = 完全透明；100% = 完全不透明）")
 
         self.slider_base.was_changed_slider_value.connect(self.was_changed_slider_base_value)
         self.slider_topright.was_changed_slider_value.connect(self.was_changed_slider_topright_value)
@@ -383,7 +383,7 @@ class SlidersOpacitySplitViews(QtWidgets.QFrame):
         self.label_bottomright = QtWidgets.QLabel("", alignment=QtCore.Qt.AlignRight|QtCore.Qt.AlignVCenter)
         self.label_bottomleft = QtWidgets.QLabel("", alignment=QtCore.Qt.AlignRight|QtCore.Qt.AlignVCenter)
 
-        self.title_label = QtWidgets.QLabel("Opacity of active image window")
+        self.title_label = QtWidgets.QLabel("当前图像窗口的不透明度")
         self.title_label.setAlignment(QtCore.Qt.AlignLeft)
         self.title_label.setStyleSheet("""
             QLabel { 
@@ -548,8 +548,8 @@ class SplitViewManager(QtWidgets.QWidget):
         super().__init__()
 
         self.lock_split_pushbutton = QtWidgets.QToolButton()
-        self.lock_split_pushbutton.setText("Lock Overlay (Shift·X)")
-        self.lock_split_pushbutton.setToolTip("Lock the split position of the active sliding overlay")
+        self.lock_split_pushbutton.setText("锁定叠加层（Shift·X）")
+        self.lock_split_pushbutton.setToolTip("锁定当前滑动叠加层的分割位置")
         self.lock_split_pushbutton.setStyleSheet("""
             QToolButton {
                 color: white;
@@ -598,47 +598,47 @@ class SplitViewManager(QtWidgets.QWidget):
         layout_buttons.setColumnStretch(0,1)
 
         self.topleft_pushbutton = PushbuttonSplitViewSet(url=":/icons/arrow-up-left.svg", x=0.0, y=0.0)
-        self.topleft_pushbutton.setToolTip("Top left of sliding overlay (move and lock)")
+        self.topleft_pushbutton.setToolTip("滑动叠加层左上位置（移动并锁定）")
         self.topleft_pushbutton.hovered_xy.connect(self.on_hovered_set_pushbutton)
         self.topleft_pushbutton.clicked_xy.connect(self.on_clicked_set_pushbutton)
 
         self.topcenter_pushbutton = PushbuttonSplitViewSet(url=":/icons/arrow-up.svg", x=0.5, y=0.0)
-        self.topcenter_pushbutton.setToolTip("Top center of sliding overlay (move and lock)")
+        self.topcenter_pushbutton.setToolTip("滑动叠加层顶部中间位置（移动并锁定）")
         self.topcenter_pushbutton.hovered_xy.connect(self.on_hovered_set_pushbutton)
         self.topcenter_pushbutton.clicked_xy.connect(self.on_clicked_set_pushbutton)
         
         self.topright_pushbutton = PushbuttonSplitViewSet(url=":/icons/arrow-up-right.svg", x=1.0, y=0.0)
-        self.topright_pushbutton.setToolTip("Top right of sliding overlay (move and lock)")
+        self.topright_pushbutton.setToolTip("滑动叠加层右上位置（移动并锁定）")
         self.topright_pushbutton.hovered_xy.connect(self.on_hovered_set_pushbutton)
         self.topright_pushbutton.clicked_xy.connect(self.on_clicked_set_pushbutton)
         
         self.middleleft_pushbutton = PushbuttonSplitViewSet(url=":/icons/arrow-left.svg", x=0.0, y=0.5)
-        self.middleleft_pushbutton.setToolTip("Middle left of sliding overlay (move and lock)")
+        self.middleleft_pushbutton.setToolTip("滑动叠加层中部左侧位置（移动并锁定）")
         self.middleleft_pushbutton.hovered_xy.connect(self.on_hovered_set_pushbutton)
         self.middleleft_pushbutton.clicked_xy.connect(self.on_clicked_set_pushbutton)
         
         self.middlecenter_pushbutton = PushbuttonSplitViewSet(url=":/icons/plus.svg", x=0.5, y=0.5)
-        self.middlecenter_pushbutton.setToolTip("Middle center of sliding overlay (move and lock)")
+        self.middlecenter_pushbutton.setToolTip("滑动叠加层正中位置（移动并锁定）")
         self.middlecenter_pushbutton.hovered_xy.connect(self.on_hovered_set_pushbutton)
         self.middlecenter_pushbutton.clicked_xy.connect(self.on_clicked_set_pushbutton)
         
         self.middleright_pushbutton = PushbuttonSplitViewSet(url=":/icons/arrow-right.svg", x=1.0, y=0.5)
-        self.middleright_pushbutton.setToolTip("Middle right of sliding overlay (move and lock)")
+        self.middleright_pushbutton.setToolTip("滑动叠加层中部右侧位置（移动并锁定）")
         self.middleright_pushbutton.hovered_xy.connect(self.on_hovered_set_pushbutton)
         self.middleright_pushbutton.clicked_xy.connect(self.on_clicked_set_pushbutton)
         
         self.bottomleft_pushbutton = PushbuttonSplitViewSet(url=":/icons/arrow-down-left.svg", x=0.0, y=1.0)
-        self.bottomleft_pushbutton.setToolTip("Bottom left of sliding overlay (move and lock)")
+        self.bottomleft_pushbutton.setToolTip("滑动叠加层左下位置（移动并锁定）")
         self.bottomleft_pushbutton.hovered_xy.connect(self.on_hovered_set_pushbutton)
         self.bottomleft_pushbutton.clicked_xy.connect(self.on_clicked_set_pushbutton)
         
         self.bottomcenter_pushbutton = PushbuttonSplitViewSet(url=":/icons/arrow-down.svg", x=0.5, y=1.0)
-        self.bottomcenter_pushbutton.setToolTip("Bottom center of sliding overlay (move and lock)")
+        self.bottomcenter_pushbutton.setToolTip("滑动叠加层底部中间位置（移动并锁定）")
         self.bottomcenter_pushbutton.hovered_xy.connect(self.on_hovered_set_pushbutton)
         self.bottomcenter_pushbutton.clicked_xy.connect(self.on_clicked_set_pushbutton)
         
         self.bottomright_pushbutton = PushbuttonSplitViewSet(url=":/icons/arrow-down-right.svg", x=1.0, y=1.0)
-        self.bottomright_pushbutton.setToolTip("Bottom right of sliding overlay (move and lock)")
+        self.bottomright_pushbutton.setToolTip("滑动叠加层右下位置（移动并锁定）")
         self.bottomright_pushbutton.hovered_xy.connect(self.on_hovered_set_pushbutton)
         self.bottomright_pushbutton.clicked_xy.connect(self.on_clicked_set_pushbutton)
         
@@ -676,12 +676,12 @@ class SplitViewManager(QtWidgets.QWidget):
             boolean (bool): True for locking split; False for unlocking split.
         """
         if boolean:
-            text = "Unlock Overlay (Shift·X)"
-            tooltip = "Unlock the split position of the active sliding overlay"
+            text = "解锁叠加层（Shift·X）"
+            tooltip = "解锁当前滑动叠加层的分割位置"
             self.lock_split_locked.emit()
         else:
-            text = "Lock Overlay (Shift·X)"
-            tooltip = "Lock the split position of the active sliding overlay"
+            text = "锁定叠加层（Shift·X）"
+            tooltip = "锁定当前滑动叠加层的分割位置"
             self.lock_split_unlocked.emit()
         self.lock_split_pushbutton.setText(text)
         self.lock_split_pushbutton.setToolTip(tooltip)
