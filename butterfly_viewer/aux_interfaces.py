@@ -240,26 +240,26 @@ class SliderDeluxe(QtWidgets.QWidget):
             if pixmap_preview_position == "Top left":
                 x_0 = 0
                 y_0 = 0
-                x   = 0.5*checker_length
-                y   = 0.5*checker_length
+                x   = checker_length // 2
+                y   = checker_length // 2
 
             elif pixmap_preview_position == "Top right":
                 x_0 = checker_length
                 y_0 = 0
-                x   = 0.5*checker_length
-                y   = 0.5*checker_length
+                x   = checker_length // 2
+                y   = checker_length // 2
 
             elif pixmap_preview_position == "Bottom right":
                 x_0 = checker_length
                 y_0 = checker_length
-                x   = 0.5*checker_length
-                y   = 0.5*checker_length
+                x   = checker_length // 2
+                y   = checker_length // 2
 
             elif pixmap_preview_position == "Bottom left":
                 x_0 = 0
                 y_0 = checker_length
-                x   = 0.5*checker_length
-                y   = 0.5*checker_length
+                x   = checker_length // 2
+                y   = checker_length // 2
                 
             else:
                 x_0 = 0
@@ -271,7 +271,7 @@ class SliderDeluxe(QtWidgets.QWidget):
 
             painter_icon.setPen(QtCore.Qt.NoPen)
             painter_icon.setBrush(QtCore.Qt.black)
-            painter_icon.drawRect(x_0, y_0, 2.0*x + 1, 2.0*y + 1)
+            painter_icon.drawRect(x_0, y_0, 2*x + 1, 2*y + 1)
 
             painter_icon.setPen(QtCore.Qt.NoPen)
             painter_icon.setBrush(QtCore.Qt.white)
@@ -285,7 +285,7 @@ class SliderDeluxe(QtWidgets.QWidget):
 
             painter_outline.setPen(QtCore.Qt.black)
             painter_outline.setBrush(QtCore.Qt.NoBrush)
-            painter_outline.drawRect(x_0, y_0, 2.0*x + 1, 2.0*y + 1)
+            painter_outline.drawRect(x_0, y_0, 2*x + 1, 2*y + 1)
  
             painter_outline.setPen(QtCore.Qt.black)
             painter_outline.setBrush(QtCore.Qt.NoBrush)

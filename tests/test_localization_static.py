@@ -12,10 +12,10 @@ README = (ROOT / "README.md").read_text(encoding="utf-8")
 
 
 def test_version_is_consistent():
-    assert re.search(r'VERSION\s*=\s*["\']1\.1\.0\.1["\']', MAIN)
-    assert re.search(r'#define MyAppVersion\s+"1\.1\.0\.1"', ISS)
-    assert "butterfly_viewer_v1.1.0.1_win64_setup" in ISS
-    assert "Butterfly_Viewer_v1.1.0.1_Windows_Portable_zh-CN.zip" in README
+    assert re.search(r'VERSION\s*=\s*["\']1\.1\.0\.2["\']', MAIN)
+    assert re.search(r'#define MyAppVersion\s+"1\.1\.0\.2"', ISS)
+    assert "butterfly_viewer_v1.1.0.2_win64_setup" in ISS
+    assert "Butterfly_Viewer_v1.1.0.2_Windows_Portable_zh-CN.zip" in README
 
 
 def test_default_interface_is_chinese_and_portable():

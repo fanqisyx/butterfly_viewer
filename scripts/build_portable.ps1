@@ -45,7 +45,7 @@ if ($RepoRoot -match '[^\x00-\x7F]' -and $env:BUTTERFLY_BUILD_SUBST_ACTIVE -ne '
     exit $NestedExitCode
 }
 
-$ExpectedVersion = '1.1.0.1'
+$ExpectedVersion = '1.1.0.2'
 $VersionSource = Join-Path $RepoRoot 'butterfly_viewer\butterfly_viewer.py'
 $RequirementsFile = Join-Path $RepoRoot 'requirements-build.txt'
 $EntryPoint = Join-Path $RepoRoot 'butterfly_viewer\butterfly_viewer.py'
@@ -228,6 +228,39 @@ try {
     $RuntimeExecutable = Join-Path $RuntimeDirectory 'butterfly_viewer.exe'
     if (-not (Test-Path -LiteralPath $RuntimeExecutable -PathType Leaf)) {
         throw "PyInstaller output is missing: $RuntimeExecutable"
+    }
+
+    # A windowed PyInstaller process can remain alive while displaying its
+    # unhandled-exception dialog. Require the actual application window so a
+    # broken package cannot pass merely because its process still exists.
+    $SmokeProcess = Start-Process -FilePath $RuntimeExecutable -PassThru
+    try {
+        $SmokeDeadline = [DateTime]::UtcNow.AddSeconds(15)
+        do {
+            Start-Sleep -Milliseconds 250
+            $SmokeProcess.Refresh()
+            if ($SmokeProcess.HasExited) {
+                throw "Portable executable exited during startup (exit code $($SmokeProcess.ExitCode))."
+            }
+        } while ([string]::IsNullOrWhiteSpace($SmokeProcess.MainWindowTitle) -and [DateTime]::UtcNow -lt $SmokeDeadline)
+
+        $SmokeProcess.Refresh()
+        if ([string]::IsNullOrWhiteSpace($SmokeProcess.MainWindowTitle)) {
+            throw 'Portable executable did not create a main window within 15 seconds.'
+        }
+        if ($SmokeProcess.MainWindowTitle -eq 'Unhandled exception in script') {
+            throw 'Portable executable displayed an unhandled-exception dialog during startup.'
+        }
+        if ($SmokeProcess.MainWindowTitle -ne 'Butterfly Viewer') {
+            throw "Portable executable created an unexpected window: $($SmokeProcess.MainWindowTitle)"
+        }
+        Write-Output "Startup smoke test passed: $($SmokeProcess.MainWindowTitle)"
+    }
+    finally {
+        if (-not $SmokeProcess.HasExited) {
+            Stop-Process -Id $SmokeProcess.Id -Force
+            $SmokeProcess.WaitForExit()
+        }
     }
 
     [IO.Directory]::CreateDirectory($ReleaseRoot) | Out-Null

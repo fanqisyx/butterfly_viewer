@@ -32,7 +32,7 @@
 
 Butterfly Viewer 是一款桌面多图像查看器，支持滑动叠加、同步平移和缩放，以及其他便于快速并排比较本地图像文件的功能。它适合目视检查绘画研究数据，例如高分辨率照片、掠射光照片、X 光片，以及 XRF 和 RIS 元素图。
 
-本汉化版提供 Windows 绿色版：前往 [fanqisyx/butterfly_viewer Releases](https://github.com/fanqisyx/butterfly_viewer/releases)，下载 `Butterfly_Viewer_v1.1.0.1_Windows_Portable_zh-CN.zip`，解压后进入 `butterfly_viewer` 文件夹并运行 `butterfly_viewer.exe`，无需安装。程序设置保存在同目录的 `butterfly_viewer.ini` 中。也可以按照上游文档运行 [macOS 应用](https://olive-groves.github.io/butterfly_viewer/butterfly_viewer.html#macos-app) 或 [Python 源码](https://olive-groves.github.io/butterfly_viewer/butterfly_viewer.html#python)。
+本汉化版提供 Windows 绿色版：前往 [fanqisyx/butterfly_viewer Releases](https://github.com/fanqisyx/butterfly_viewer/releases)，下载 `Butterfly_Viewer_v1.1.0.2_Windows_Portable_zh-CN.zip`，解压后进入 `butterfly_viewer` 文件夹并运行 `butterfly_viewer.exe`，无需安装。程序设置保存在同目录的 `butterfly_viewer.ini` 中。也可以按照上游文档运行 [macOS 应用](https://olive-groves.github.io/butterfly_viewer/butterfly_viewer.html#macos-app) 或 [Python 源码](https://olive-groves.github.io/butterfly_viewer/butterfly_viewer.html#python)。
 
 查看器可以加载大多数 PNG、JPEG 和 TIFF 文件。
 

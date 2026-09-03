@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Butterfly Viewer"
-#define MyAppVersion "1.1.0.1"
+#define MyAppVersion "1.1.0.2"
 #define MyAppURL "https://github.com/fanqisyx/butterfly_viewer"
 #define MyAppExeName "butterfly_viewer.exe"
 
@@ -23,8 +23,8 @@ LicenseFile=C:\art\butterfly_viewer\LICENSE.txt
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline
-OutputDir=C:\art\installers\butterfly_viewer_v1.1.0.1_win64_setup
-OutputBaseFilename=butterfly_viewer_v1.1.0.1_win64_setup
+OutputDir=C:\art\installers\butterfly_viewer_v1.1.0.2_win64_setup
+OutputBaseFilename=butterfly_viewer_v1.1.0.2_win64_setup
 SetupIconFile=C:\art\butterfly_viewer\butterfly_viewer\icons\icon.ico
 Compression=lzma
 SolidCompression=yes

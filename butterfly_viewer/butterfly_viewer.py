@@ -57,7 +57,7 @@ if hasattr(sip, "setapi"):
 COMPANY = "Butterfly Apps"
 DOMAIN = "https://github.com/fanqisyx/butterfly_viewer/"
 APPNAME = "Butterfly Viewer"
-VERSION = "1.1.0.1"
+VERSION = "1.1.0.2"
 
 SETTING_RECENTFILELIST = "recentfilelist"
 SETTING_FILEOPEN = "fileOpenDialog"
